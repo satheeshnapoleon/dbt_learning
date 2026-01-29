@@ -5,5 +5,6 @@ sources:
     tables:
       - name: stg_customer
       - name: stg_fact_sales
+      - name: stg_product
 
     

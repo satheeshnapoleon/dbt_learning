@@ -4,6 +4,7 @@
 ) }}
 
 select 
+    try_cast(customer_sk as varchar)              as customer_sk,
     try_cast(customer_code as varchar(30))        as customer_code,
     try_cast(first_name as varchar(30))           as customer_first_name,
     try_cast(last_name as varchar(30))            as customer_last_name,
@@ -28,4 +29,7 @@ where ingest_ts >
       (select coalesce(max(ingest_ts), timestamp '1900-01-01 00:00:00')
        from {{ this }})
 {% endif %}
+
+
+
 
