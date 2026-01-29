@@ -1,38 +1,30 @@
-
+-- back compat for old kwarg name
   
+  begin;
     
-
-create or replace transient table retails.bronze.silver_customer
-    
-    
-    
-    as (
-
-select 
-    try_cast(customer_code as varchar(30))        as customer_code,
-    try_cast(first_name as varchar(30))           as customer_first_name,
-    try_cast(last_name as varchar(30))            as customer_last_name,
-
-    try_cast(
         
-    coalesce(first_name, '') || ' ' || coalesce(last_name, '')
+            
+	    
+	    
+            
+        
+    
 
-        as varchar(60)
-    )                                             as customer_full_name,
+    
 
-    try_cast(gender as varchar(10))               as gender_type_of_customer,
-    try_cast(email as varchar(40))                as customer_email,
+    merge into retails.silver.silver_customer as DBT_INTERNAL_DEST
+        using retails.silver.silver_customer__dbt_tmp as DBT_INTERNAL_SOURCE
+        on ((DBT_INTERNAL_SOURCE.customer_code = DBT_INTERNAL_DEST.customer_code))
 
-    try_cast(phone as varchar(20))                as customer_mobile_number,
+    
+    when matched then update set
+        "CUSTOMER_CODE" = DBT_INTERNAL_SOURCE."CUSTOMER_CODE","CUSTOMER_FIRST_NAME" = DBT_INTERNAL_SOURCE."CUSTOMER_FIRST_NAME","CUSTOMER_LAST_NAME" = DBT_INTERNAL_SOURCE."CUSTOMER_LAST_NAME","CUSTOMER_FULL_NAME" = DBT_INTERNAL_SOURCE."CUSTOMER_FULL_NAME","GENDER_TYPE_OF_CUSTOMER" = DBT_INTERNAL_SOURCE."GENDER_TYPE_OF_CUSTOMER","CUSTOMER_EMAIL" = DBT_INTERNAL_SOURCE."CUSTOMER_EMAIL","CUSTOMER_MOBILE_NUMBER" = DBT_INTERNAL_SOURCE."CUSTOMER_MOBILE_NUMBER","CUSTOMER_SIGNUP_DATE" = DBT_INTERNAL_SOURCE."CUSTOMER_SIGNUP_DATE","INGEST_TS" = DBT_INTERNAL_SOURCE."INGEST_TS"
+    
 
-    try_to_timestamp_ntz(signup_date)              as customer_signup_date,
-    ingest_ts
+    when not matched then insert
+        ("CUSTOMER_CODE", "CUSTOMER_FIRST_NAME", "CUSTOMER_LAST_NAME", "CUSTOMER_FULL_NAME", "GENDER_TYPE_OF_CUSTOMER", "CUSTOMER_EMAIL", "CUSTOMER_MOBILE_NUMBER", "CUSTOMER_SIGNUP_DATE", "INGEST_TS")
+    values
+        ("CUSTOMER_CODE", "CUSTOMER_FIRST_NAME", "CUSTOMER_LAST_NAME", "CUSTOMER_FULL_NAME", "GENDER_TYPE_OF_CUSTOMER", "CUSTOMER_EMAIL", "CUSTOMER_MOBILE_NUMBER", "CUSTOMER_SIGNUP_DATE", "INGEST_TS")
 
-from retails.bronze.stg_customer
-
-
-    )
 ;
-
-
-  
+    commit;

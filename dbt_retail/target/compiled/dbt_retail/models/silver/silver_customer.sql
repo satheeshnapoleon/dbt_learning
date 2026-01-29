@@ -22,3 +22,7 @@ select
 
 from retails.bronze.stg_customer
 
+
+where ingest_ts >
+      (select coalesce(max(ingest_ts), timestamp '1900-01-01 00:00:00')
+       from retails.silver.silver_customer)

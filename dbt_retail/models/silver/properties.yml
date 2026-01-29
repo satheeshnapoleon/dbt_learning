@@ -1,0 +1,16 @@
+models:
+  - name: silver_customer
+    columns:
+      - name: customer_code
+        tests:
+          - not_null
+          - unique
+      - name: gender_type_of_customer
+        tests:
+          - accepted_values:
+              values: ['Other', 'M', 'F']
+
+
+
+
+  

@@ -4,5 +4,6 @@ sources:
     schema: bronze
     tables:
       - name: stg_customer
+      - name: stg_fact_sales
 
     
