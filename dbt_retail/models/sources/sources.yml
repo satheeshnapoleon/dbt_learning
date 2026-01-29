@@ -1,0 +1,8 @@
+sources:
+  - name: retail_data
+    database: retails
+    schema: bronze
+    tables:
+      - name: stg_customer
+
+    

@@ -1,0 +1,14 @@
+
+dbt_retail:
+  outputs:
+    dev:
+      account: JCFJVGS-VB83840
+      database: retails
+      password: Bav@Snowflake8136
+      role: ACCOUNTADMIN
+      schema: bronze
+      threads: 1
+      type: snowflake
+      user: satheesh
+      warehouse: COMPUTE_WH
+  target: dev
