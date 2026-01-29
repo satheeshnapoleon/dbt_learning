@@ -1,0 +1,1 @@
+{"_invocation_id": "c0a00cff-76e3-4543-999c-42029fd07d31", "linked": {"0": {"name": "source.dbt_retail.retail_data.stg_customer", "type": "source", "succ": [2]}, "1": {"name": "model.dbt_retail.customer_dim", "type": "model"}, "2": {"name": "model.dbt_retail.silver_customer", "type": "model"}}}
